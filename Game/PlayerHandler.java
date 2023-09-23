@@ -1,12 +1,18 @@
 package Game;
 
+import Entities.Player;
+
 public class PlayerHandler {
+
 
     private Player[] players;
     private int currentPlayerIndex;
 
-    public PlayerHandler(int playerAmount) {
-        this.players = new Player[playerAmount];
+    public PlayerHandler() { }
+
+    public void initialize(){
+        int playerAmount = GameConsole.askForPlayerAmount();
+        initializePlayersArray(playerAmount); // Initialize player array
     }
 
     public int getEmptyPlayerPosition(){
@@ -49,6 +55,15 @@ public class PlayerHandler {
 
     public int getPlayerAmount(){
         return this.players.length;
+    }
+
+
+    public void initializePlayersArray(int playerAmount) {
+        players = new Player[playerAmount];
+        for (int i = 0; i < playerAmount; i++) {
+            String playerName = GameConsole.askForPlayerName();
+            addPlayer(new Player(playerName));
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package Game;
+package Entities;
 
 public class BaseEntity {
 
@@ -6,19 +6,30 @@ public class BaseEntity {
     private String icon;
     private Position position;
 
-    public BaseEntity(String name) {
-        this.name = name;
+    public boolean isWalkable() {
+        return isWalkable;
     }
 
-    public BaseEntity(String name, String icon) {
+    private boolean isWalkable;
+
+    public BaseEntity(String name, boolean isWalkable) {
+        this.name = name;
+        this.isWalkable = isWalkable;
+    }
+
+    public BaseEntity(String name, String icon, boolean isWalkable) {
         this.name = name;
         this.icon = icon;
+        this.isWalkable = isWalkable;
+
     }
 
-    public BaseEntity(Position position, String name, String icon) {
+    public BaseEntity(Position position, String name, String icon, boolean isWalkable) {
         this.name = name;
         this.icon = icon;
         this.position = position;
+        this.isWalkable = isWalkable;
+
     }
 
     public String getName() {

@@ -1,11 +1,15 @@
-package Game;
+package Entities;
 
-public class BaseWeapon extends BaseEntity {
+import Weapons.Fireball;
+import Weapons.MagicRing;
+import Weapons.Sword;
+
+public abstract class BaseWeapon extends BaseEntity {
 
     private int damage;
 
     public BaseWeapon(String name, String icon) {
-        super(name, icon);
+        super(name, icon, true);
     }
 
     public int getDamage() {
@@ -15,4 +19,7 @@ public class BaseWeapon extends BaseEntity {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
+
+
 }

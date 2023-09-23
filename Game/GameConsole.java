@@ -1,10 +1,15 @@
 package Game;
 
+import Entities.BaseEntity;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class GameConsole {
+
+    private static final Scanner reader = new Scanner(System.in);
 
     public static void printGameState(BaseEntity[][] board){
         String[] lines = new String[board.length];
@@ -58,8 +63,44 @@ public class GameConsole {
             System.out.println();
         }
     }
+    public static int askForPlayerAmount(){
+        int playerAmount;
+        do {
+            System.out.println("How many players do you want in the game?");
+            playerAmount = reader.nextInt();
+            if(playerAmount <= 0)
+                System.out.println("Please enter a positive integer");
+
+        }while(playerAmount <= 0);
+        return playerAmount;
+    }
+
+    public static String askForPlayerName(){
+        System.out.println("Enter player name:");
+        return reader.next();
+    }
+
+    public static char askForPlayerMovement(){
+        char playerMovement;
+        do {
+            System.out.println("Enter where you want to move (R/L/U/D)");
+            playerMovement = reader.next().charAt(0);
+            if(!isValidCharInput(playerMovement))
+                System.out.println("Invalid input. Please try again.");
+
+        }while(!isValidCharInput(playerMovement));
+        return playerMovement;
+    }
+
+    private static boolean isValidCharInput(char playerMovement ){
+        return !(playerMovement != 'R' && playerMovement!= 'L' && playerMovement!= 'U' && playerMovement != 'D');
+    }
 
 
 
+    public static void invalidInputMessage()
+    {
+        System.out.println("Invalid input. Please try again.");
+    }
 
 }

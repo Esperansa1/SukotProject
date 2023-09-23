@@ -1,4 +1,4 @@
-package Game;
+package Entities;
 
 import java.util.Objects;
 
@@ -39,5 +39,10 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + "" + x + ", " + y + ')';
     }
 }

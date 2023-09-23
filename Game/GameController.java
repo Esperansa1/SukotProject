@@ -1,55 +1,51 @@
 package Game;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+
+import Entities.Player;
 
 public class GameController {
 
-    private final int TREE_AMOUNT = 3;
-
     private PlayerHandler playerHandler;
-
-    private ArrayList<BaseEntity> entities;
     private BoardManager boardManager;
 
-    private static final Scanner reader = new Scanner(System.in);
+    final int TREE_AMOUNT = 3;
+    final int WEAPON_AMOUNT = 6;
 
     public GameController() {
 
         // Initializations
-        int playerAmount = askForPlayerAmount();
-        playerHandler = new PlayerHandler(playerAmount);
-        setupPlayers();
+        playerHandler = new PlayerHandler();
+        playerHandler.initialize();
 
+        int entitiesAmount = playerHandler.getPlayerAmount() + TREE_AMOUNT + WEAPON_AMOUNT;
+        boardManager = new BoardManager(entitiesAmount);
+        boardManager.spawnEntities(playerHandler, TREE_AMOUNT, WEAPON_AMOUNT);
 
-        entities = new ArrayList<>();
-        boardManager = new BoardManager();
-        GameConsole.clearConsole();
-
-
-        GenerateBoardEntities.spawnEntities(entities, playerHandler);
-        boardManager.updateBoard(entities);
-        GameConsole.printGameState(boardManager.getBoard());
-
-
-
+        stepGame();
     }
 
-    public int askForPlayerAmount(){
-        System.out.println("How many players do you want in the game?");
-        return reader.nextInt();
-    }
+    private void stepGame(){
 
-    public String askForPlayerName(){
-        System.out.println("Enter player name:");
-        return reader.next();
-    }
+        updateAndPrintGameState();
 
-    public void setupPlayers() {
+        Player currentPlayer = playerHandler.getCurrentPlayer();
+        char wantedMovement = GameConsole.askForPlayerMovement();
 
-        for (int i = 0; i < playerHandler.getPlayerAmount(); i++) {
-            String playerName = askForPlayerName();
-            playerHandler.addPlayer(new Player(playerName));
+        switch (Character.toUpperCase(wantedMovement)) {
+            case 'L' -> currentPlayer.attemptMoveLeft(boardManager);
+            case 'R' -> currentPlayer.attemptMoveRight(boardManager);
+            case 'U' -> currentPlayer.attemptMoveUp(boardManager);
+            case 'D' -> currentPlayer.attemptMoveDown(boardManager);
         }
+        updateAndPrintGameState();
+
+    }
+
+
+
+    private void updateAndPrintGameState()
+    {
+        boardManager.updateBoard();
+        GameConsole.printGameState(boardManager.getBoard());
     }
 }
