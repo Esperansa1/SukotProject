@@ -15,7 +15,7 @@ public class Player extends BaseEntity implements Interactable{
             "🧐", "🤨", "🤫", "🤬", "🤭"
     };
 
-    Queue<BaseWeapon> weaponQueue = new PriorityQueue<>();
+    private Queue<BaseWeapon> weaponQueue = new PriorityQueue<>();
 
 
     public Player(String name) {
@@ -28,7 +28,7 @@ public class Player extends BaseEntity implements Interactable{
 
     @Override
     public String toString() {
-        return "Game.Player "+ super.getName() + " Icon: " + getIcon();
+        return "Player "+ super.getName() + " Icon: " + getIcon();
     }
 
     private String getRandomIcon(){

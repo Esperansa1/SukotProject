@@ -42,6 +42,11 @@ public class PlayerHandler {
         return this.players[currentPlayerIndex];
     }
 
+    public Player getCurrentPlayer(){
+        return this.players[currentPlayerIndex];
+    }
+
+
     public int getPlayerAmount(){
         return this.players.length;
     }

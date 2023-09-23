@@ -15,6 +15,12 @@ public class BaseEntity {
         this.icon = icon;
     }
 
+    public BaseEntity(Position position, String name, String icon) {
+        this.name = name;
+        this.icon = icon;
+        this.position = position;
+    }
+
     public String getName() {
         return name;
     }
@@ -33,5 +39,10 @@ public class BaseEntity {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
