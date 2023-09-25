@@ -26,8 +26,8 @@ public class BoardManager {
         }
 
         // Add the entities to the board
-        for (int i = 0; i < entities.length; i++) {
-            addEntity(entities[i], entities[i].getPosition());
+        for (BaseEntity entity : entities) {
+            addEntity(entity, entity.getPosition());
         }
     }
 
@@ -41,7 +41,7 @@ public class BoardManager {
 
 
     public BaseEntity getEntity(Position position){
-        return board[position.getY()][position.getX()];
+        return board[position.getX()][position.getY()];
     }
 
     public void deleteEntity(Position position) {
@@ -49,7 +49,7 @@ public class BoardManager {
         entities[findEntity(position)] = new EmptyEntity(position);
     }
 
-    private int findEntity(Position position){
+    public int findEntity(Position position){
         for (int i = 0; i < getEmptyIndex(); i++) {
             if(entities[i].getPosition().equals(position)){
                 return i;
@@ -65,7 +65,7 @@ public class BoardManager {
 
 
     private boolean isEmpty(Position position) {
-        return board[position.getY()][position.getX()].getName().equals("Empty");
+        return board[position.getX()][position.getY()].getName().equals("Empty");
     }
 
     public void addEntity(BaseEntity entity, Position position){
@@ -73,7 +73,6 @@ public class BoardManager {
         board[position.getX()][position.getY()] = entity;
         if(getEmptyIndex() == entities.length) return;
         entities[getEmptyIndex()] = entity;
-
     }
 
     public void spawnEntities(PlayerHandler playerHandler, int treeAmount, int weaponAmount) {
@@ -133,11 +132,6 @@ public class BoardManager {
         return weaponOption[(int)(Math.random() * weaponOption.length)];
     }
 
-    public boolean isMovePossible(Position position){
-        int entityIndex = findEntity(position);
 
-
-        return isInBoard(position) && (isEmpty(position) || (entityIndex!= -1 && entities[entityIndex].isWalkable()));
-    }
 
 }

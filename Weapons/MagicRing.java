@@ -1,11 +1,13 @@
 package Weapons;
 
 import Entities.BaseWeapon;
+import Entities.Player;
+import Game.BoardManager;
 import Game.Fightable;
 
 public class MagicRing extends BaseWeapon implements Fightable {
 
-    private static final String NAME = "Magic Ring";
+    public static final String NAME = "Magic Ring";
     private static final String ICON = "\uD83D\uDC8D";
 
     public MagicRing() {
@@ -29,5 +31,13 @@ public class MagicRing extends BaseWeapon implements Fightable {
     @Override
     public boolean stronger(MagicRing weapon) {
         return Math.random() > 0.5;
+    }
+
+    @Override
+    public void interact(Player player, BoardManager boardManager) {
+        player.setPosition(getPosition());
+        player.addWeapon(this);
+        System.out.println("Weapon " + this.getName() + " has been added to player " + player.getName());
+
     }
 }

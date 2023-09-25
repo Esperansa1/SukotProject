@@ -1,10 +1,12 @@
 package Weapons;
 
 import Entities.BaseWeapon;
+import Entities.Player;
+import Game.BoardManager;
 import Game.Fightable;
 
 public class Sword extends BaseWeapon implements Fightable {
-    private static final String NAME = "Sword";
+    public static final String NAME = "Sword";
     private static final String ICON = "⚔";
 
 
@@ -27,5 +29,13 @@ public class Sword extends BaseWeapon implements Fightable {
 
     public boolean stronger(MagicRing weapon) {
         return true;
+    }
+
+    @Override
+    public void interact(Player player, BoardManager boardManager) {
+        player.setPosition(getPosition());
+        player.addWeapon(this);
+        System.out.println("Weapon " + this.getName() + " has been added to player " + player.getName());
+
     }
 }

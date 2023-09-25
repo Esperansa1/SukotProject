@@ -20,23 +20,19 @@ public class GameController {
         int entitiesAmount = playerHandler.getPlayerAmount() + TREE_AMOUNT + WEAPON_AMOUNT;
         boardManager = new BoardManager(entitiesAmount);
         boardManager.spawnEntities(playerHandler, TREE_AMOUNT, WEAPON_AMOUNT);
-
+        updateAndPrintGameState();
         stepGame();
     }
 
     private void stepGame(){
 
-        updateAndPrintGameState();
+
 
         Player currentPlayer = playerHandler.getCurrentPlayer();
         char wantedMovement = GameConsole.askForPlayerMovement();
 
-        switch (Character.toUpperCase(wantedMovement)) {
-            case 'L' -> currentPlayer.attemptMoveLeft(boardManager);
-            case 'R' -> currentPlayer.attemptMoveRight(boardManager);
-            case 'U' -> currentPlayer.attemptMoveUp(boardManager);
-            case 'D' -> currentPlayer.attemptMoveDown(boardManager);
-        }
+        currentPlayer.attemptMove(boardManager, wantedMovement);
+
         updateAndPrintGameState();
 
     }
@@ -47,5 +43,6 @@ public class GameController {
     {
         boardManager.updateBoard();
         GameConsole.printGameState(boardManager.getBoard());
+        stepGame();
     }
 }

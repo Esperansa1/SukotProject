@@ -1,6 +1,9 @@
 package Entities;
 
-public class BaseEntity {
+import Game.BoardManager;
+import Weapons.MagicRing;
+
+public abstract class BaseEntity {
 
     private String name;
     private String icon;
@@ -56,4 +59,6 @@ public class BaseEntity {
     public String toString() {
         return name;
     }
+
+    public abstract void interact(Player player, BoardManager boardManager);
 }

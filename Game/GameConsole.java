@@ -92,7 +92,8 @@ public class GameConsole {
         return playerMovement;
     }
 
-    private static boolean isValidCharInput(char playerMovement ){
+    private static boolean isValidCharInput(char playerMovement){
+        playerMovement = Character.toUpperCase(playerMovement);
         return !(playerMovement != 'R' && playerMovement!= 'L' && playerMovement!= 'U' && playerMovement != 'D');
     }
 

@@ -1,12 +1,12 @@
 package Entities;
 
 import Game.BoardManager;
-import Game.Interactable;
 
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Player extends BaseEntity implements Interactable {
+public class Player extends BaseEntity {
 
     private final String[] icons = {
             "😀", "😁", "😂", "🤣", "😃", "😄", "😅", "😆", "😇", "😉",
@@ -18,7 +18,7 @@ public class Player extends BaseEntity implements Interactable {
             "🧐", "🤨", "🤫", "🤬", "🤭"
     };
 
-    private Queue<BaseWeapon> weaponQueue = new PriorityQueue<>();
+    private Queue<BaseWeapon> weaponQueue = new LinkedList<>() ;
 
 
     public Player(String name) {
@@ -48,51 +48,31 @@ public class Player extends BaseEntity implements Interactable {
         return weaponQueue.element();
     }
 
-    public boolean attemptMoveRight(BoardManager boardManager)
-    {
+    public boolean attemptMove(BoardManager boardManager, char wantedMovement){
+        int x = 0;
+        int y = 0;
+        switch (wantedMovement) {
+            case 'U' -> y = -1;
+            case 'L' -> x = -1;
+            case 'D' -> y = 1;
+            case 'R' -> x = 1;
+        };
         Position currentPosition = getPosition();
-        Position newPosition = new Position(currentPosition.getX()+1, currentPosition.getY());
+        Position newPosition = new Position(currentPosition.getX() + x, currentPosition.getY() + y);
         return attemptMove(boardManager, newPosition);
+
     }
 
-    public boolean attemptMoveLeft(BoardManager boardManager)
-    {
-        Position currentPosition = getPosition();
-        Position newPosition = new Position(currentPosition.getX()-1, currentPosition.getY());
-        return attemptMove(boardManager, newPosition);
-    }
-    public boolean attemptMoveDown(BoardManager boardManager)
-    {
-        Position currentPosition = getPosition();
-        Position newPosition = new Position(currentPosition.getX(), currentPosition.getY() + 1);
-        return attemptMove(boardManager, newPosition);
-    }
-    public boolean attemptMoveUp(BoardManager boardManager)
-    {
-        Position currentPosition = getPosition();
-        Position newPosition = new Position(currentPosition.getX(), currentPosition.getY() - 1);
-        return attemptMove(boardManager, newPosition);
-    }
 
     private boolean attemptMove(BoardManager boardManager, Position newPosition){
-        boolean isPossible = boardManager.isMovePossible(newPosition);
-        if(isPossible){
-            setPosition(newPosition);
-//            System.out.println("Moved position to "+ newPosition);
-            return true;
-        }
+        if(!boardManager.isInBoard(newPosition)) return false;
+        boardManager.getEntity(newPosition).interact(this, boardManager);
         return false;
     }
 
     @Override
-    public void interact(BaseWeapon weapon) {
-        addWeapon(weapon);
+    public void interact(Player player, BoardManager boardManager) {
+
+        System.out.println("Player Interactions");
     }
-
-    @Override
-    public void interact(Player player) {
-
-    }
-
-
 }
