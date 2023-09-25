@@ -36,8 +36,10 @@ public class MagicRing extends BaseWeapon implements Fightable {
     @Override
     public void interact(Player player, BoardManager boardManager) {
         player.setPosition(getPosition());
+        // Order matters here because deleteEntity is working based off the position of the entity!
+
         player.addWeapon(this);
-        System.out.println("Weapon " + this.getName() + " has been added to player " + player.getName());
+        boardManager.deleteEntity(getPosition());
 
     }
 }

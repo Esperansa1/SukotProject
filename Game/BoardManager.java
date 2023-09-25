@@ -45,7 +45,7 @@ public class BoardManager {
     }
 
     public void deleteEntity(Position position) {
-        board[position.getY()][position.getX()] = new EmptyEntity(position);
+        board[position.getX()][position.getY()] = new EmptyEntity(position);
         entities[findEntity(position)] = new EmptyEntity(position);
     }
 
