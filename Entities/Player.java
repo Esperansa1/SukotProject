@@ -89,6 +89,9 @@ public class Player extends BaseEntity {
 
     private void thisPlayerWins(Player other, BoardManager boardManager, PlayerHandler playerHandler){
         weaponQueue.remove();
+        if(other.getWeapon()!= null)
+            addWeapon(other.getWeapon());
+
         playerHandler.removePlayer(other);
         boardManager.deleteEntity(other.getPosition());
         setPosition(other.getPosition());
@@ -96,6 +99,8 @@ public class Player extends BaseEntity {
 
     private void thisPlayerLose(Player other, BoardManager boardManager, PlayerHandler playerHandler){
         other.weaponQueue.remove();
+        if(getWeapon() != null)
+            other.addWeapon(getWeapon());
         playerHandler.removePlayer(this);
         boardManager.deleteEntity(getPosition());
         other.setPosition(getPosition());
