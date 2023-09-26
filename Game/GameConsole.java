@@ -110,4 +110,17 @@ public class GameConsole {
     public static void printInvalidMovementMessage() {
         System.out.println("Given movement is invalid, Please try again.");
     }
+
+    public static void printPlayerDetails(Player player){
+        System.out.println("Player " + player.getName() + "'s icon is " + player.getIcon());
+    }
+
+    public static void printCurrentPlayer(Player player){
+        System.out.println("Current player is " + player.getName() + " " + player.getIcon());
+    }
+
+    public static void printPlayerWeapons(Player player){
+        System.out.println(player.getName() + "'s held weapon is "+player.getWeapon().getName() + " " + player.getWeapon().getIcon());
+    }
+
 }

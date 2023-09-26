@@ -6,8 +6,8 @@ import Entities.Position;
 
 public class GameController {
 
-    private PlayerHandler playerHandler;
-    private BoardManager boardManager;
+    private final PlayerHandler playerHandler;
+    private final BoardManager boardManager;
 
     final int TREE_AMOUNT = 3;
     final int WEAPON_AMOUNT = 6;
@@ -27,6 +27,7 @@ public class GameController {
 
     private void stepGame(){
         moveCurrentPlayer();
+        GameConsole.printCurrentPlayer(playerHandler.getCurrentPlayer());
         playerHandler.getNextPlayer();
 
         if(playerHandler.isGameOver()){
@@ -38,6 +39,8 @@ public class GameController {
 
     private void moveCurrentPlayer(){
         Player currentPlayer = playerHandler.getCurrentPlayer();
+
+        GameConsole.printCurrentPlayer(currentPlayer);
 
         Position previousPosition = currentPlayer.getPosition();
         do {

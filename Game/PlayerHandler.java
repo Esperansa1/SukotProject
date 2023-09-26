@@ -28,7 +28,6 @@ public class PlayerHandler {
         int emptyPosition = getEmptyPlayerPosition();
         if(emptyPosition != -1) {
             players[emptyPosition] = player;
-            System.out.println("Added player successfully: " + player.getName());
         }
         else System.out.println("Array is full");
     }
@@ -78,7 +77,9 @@ public class PlayerHandler {
         players = new Player[playerAmount];
         for (int i = 0; i < playerAmount; i++) {
             String playerName = GameConsole.askForPlayerName();
-            addPlayer(new Player(playerName));
+            Player newPlayer = new Player(playerName);
+            addPlayer(newPlayer);
+            GameConsole.printPlayerDetails(newPlayer);
         }
     }
 
