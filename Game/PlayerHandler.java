@@ -12,7 +12,7 @@ public class PlayerHandler {
 
     public void initialize(){
         int playerAmount = GameConsole.askForPlayerAmount();
-        initializePlayersArray(playerAmount); // Initialize player array
+        initializePlayersArray(playerAmount);
     }
 
     public int getEmptyPlayerPosition(){
@@ -52,6 +52,22 @@ public class PlayerHandler {
         return this.players[currentPlayerIndex];
     }
 
+    public void removePlayer(Player unwantedPlayer) {
+
+        if(this.players.length == 0) return;
+        Player[] playerCopy = new Player[this.players.length - 1];
+
+        int k = 0;
+        for (Player player : players) {
+            if (!player.equals(unwantedPlayer)) {
+                playerCopy[k] = player;
+                k++;
+            }
+        }
+        players = playerCopy;
+        if(currentPlayerIndex >= 0)
+            currentPlayerIndex--;
+    }
 
     public int getPlayerAmount(){
         return this.players.length;
@@ -64,6 +80,10 @@ public class PlayerHandler {
             String playerName = GameConsole.askForPlayerName();
             addPlayer(new Player(playerName));
         }
+    }
+
+    public boolean isGameOver(){
+        return getPlayerAmount() <= 1;
     }
 
 }

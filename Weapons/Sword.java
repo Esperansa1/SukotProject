@@ -1,11 +1,9 @@
 package Weapons;
 
 import Entities.BaseWeapon;
-import Entities.Player;
-import Game.BoardManager;
 import Game.Fightable;
 
-public class Sword extends BaseWeapon implements Fightable {
+public class Sword extends BaseWeapon  {
     public static final String NAME = "Sword";
     private static final String ICON = "⚔";
 
@@ -19,26 +17,20 @@ public class Sword extends BaseWeapon implements Fightable {
         return opponent.stronger(this);
     }
 
+    @Override
     public boolean stronger(Fireball weapon) {
         return false;
     }
 
+    @Override
     public boolean stronger(Sword weapon) {
         return Math.random() > 0.5;
     }
 
+    @Override
     public boolean stronger(MagicRing weapon) {
         return true;
     }
 
-    @Override
-    public void interact(Player player, BoardManager boardManager) {
-        player.setPosition(getPosition());
-        // Order matters here because deleteEntity is working based off the position of the entity!
 
-        player.addWeapon(this);
-        boardManager.deleteEntity(getPosition());
-
-
-    }
 }

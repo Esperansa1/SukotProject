@@ -1,9 +1,10 @@
 package Entities;
 
 import Game.BoardManager;
+import Game.Fightable;
+import Game.PlayerHandler;
 
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Player extends BaseEntity {
@@ -48,10 +49,10 @@ public class Player extends BaseEntity {
         return weaponQueue.element();
     }
 
-    public boolean attemptMove(BoardManager boardManager, char wantedMovement){
+    public void attemptMove(BoardManager boardManager, PlayerHandler playerHandler, char wantedMovement){
         int x = 0;
         int y = 0;
-        switch (wantedMovement) {
+        switch (Character.toUpperCase(wantedMovement)) {
             case 'U' -> y = -1;
             case 'L' -> x = -1;
             case 'D' -> y = 1;
@@ -59,20 +60,47 @@ public class Player extends BaseEntity {
         };
         Position currentPosition = getPosition();
         Position newPosition = new Position(currentPosition.getX() + x, currentPosition.getY() + y);
-        return attemptMove(boardManager, newPosition);
+        attemptMove(boardManager, playerHandler, newPosition);
 
     }
 
 
-    private boolean attemptMove(BoardManager boardManager, Position newPosition){
-        if(!boardManager.isInBoard(newPosition)) return false;
-        boardManager.getEntity(newPosition).interact(this, boardManager);
-        return false;
+    private void attemptMove(BoardManager boardManager,PlayerHandler playerHandler, Position newPosition){
+        if(!boardManager.isInBoard(newPosition)) return;
+        boardManager.getEntity(newPosition).interact(this, boardManager, playerHandler);
     }
 
     @Override
-    public void interact(Player player, BoardManager boardManager) {
+    public void interact(Player other, BoardManager boardManager, PlayerHandler playerHandler) {
+        System.out.println("Interaction between players");
+        BaseWeapon myWeapon = getWeapon();
+        BaseWeapon otherWeapon= other.getWeapon();
+        if(myWeapon == null && otherWeapon == null) return;
+        else if(otherWeapon == null)
+            thisPlayerWins(other, boardManager, playerHandler);
+        else if(myWeapon == null)
+            thisPlayerLose(other, boardManager, playerHandler);
+        else if(myWeapon.interact(otherWeapon))
+            thisPlayerWins(other, boardManager, playerHandler);
+        else
+            thisPlayerLose(other, boardManager, playerHandler);
 
-        System.out.println("Player Interactions");
     }
+
+    private void thisPlayerWins(Player other, BoardManager boardManager, PlayerHandler playerHandler){
+        weaponQueue.remove();
+        playerHandler.removePlayer(other);
+        boardManager.deleteEntity(other.getPosition());
+        setPosition(other.getPosition());
+    }
+
+    private void thisPlayerLose(Player other, BoardManager boardManager, PlayerHandler playerHandler){
+        other.weaponQueue.remove();
+        playerHandler.removePlayer(this);
+        boardManager.deleteEntity(getPosition());
+        other.setPosition(getPosition());
+
+    }
+
+
 }

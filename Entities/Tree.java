@@ -1,6 +1,7 @@
 package Entities;
 
 import Game.BoardManager;
+import Game.PlayerHandler;
 
 public class Tree extends BaseEntity {
 
@@ -14,8 +15,7 @@ public class Tree extends BaseEntity {
 
 
     @Override
-    public void interact(Player player, BoardManager boardManager) {
-        System.out.println("THIS IS A TREE YA ZALAME");
-        System.out.println("Tree");
+    public void interact(Player player, BoardManager boardManager, PlayerHandler playerHandler) {
+
     }
 }

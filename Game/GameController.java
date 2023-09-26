@@ -2,6 +2,7 @@ package Game;
 
 
 import Entities.Player;
+import Entities.Position;
 
 public class GameController {
 
@@ -25,16 +26,27 @@ public class GameController {
     }
 
     private void stepGame(){
+        moveCurrentPlayer();
+        playerHandler.getNextPlayer();
 
+        if(playerHandler.isGameOver()){
+            GameConsole.printGameOverMessage(playerHandler.getCurrentPlayer());
+        }else{
+            updateAndPrintGameState();
+        }
+    }
 
-
+    private void moveCurrentPlayer(){
         Player currentPlayer = playerHandler.getCurrentPlayer();
-        char wantedMovement = GameConsole.askForPlayerMovement();
 
-        currentPlayer.attemptMove(boardManager, wantedMovement);
-
-        updateAndPrintGameState();
-
+        Position previousPosition = currentPlayer.getPosition();
+        do {
+            char wantedMovement = GameConsole.askForPlayerMovement();
+            currentPlayer.attemptMove(boardManager, playerHandler, wantedMovement);
+            if(currentPlayer.getPosition().equals(previousPosition)){
+                GameConsole.printInvalidMovementMessage();
+            }
+        }while(currentPlayer.getPosition().equals(previousPosition));
     }
 
 
@@ -45,4 +57,9 @@ public class GameController {
         GameConsole.printGameState(boardManager.getBoard());
         stepGame();
     }
+
+
+
+
+
 }

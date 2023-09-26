@@ -27,6 +27,8 @@ public class BoardManager {
 
         // Add the entities to the board
         for (BaseEntity entity : entities) {
+            if(entity.getPosition().equals(new Position(-1, -1)))
+                continue;
             addEntity(entity, entity.getPosition());
         }
     }
@@ -46,7 +48,7 @@ public class BoardManager {
 
     public void deleteEntity(Position position) {
         board[position.getX()][position.getY()] = new EmptyEntity(position);
-        entities[findEntity(position)] = new EmptyEntity(position);
+        entities[findEntity(position)] = new EmptyEntity(new Position(-1, -1));
     }
 
     public int findEntity(Position position){
@@ -88,10 +90,8 @@ public class BoardManager {
     }
 
     private void generateTrees(int treeAmount){
-
         for (int i = 0; i < treeAmount; i++) {
             addEntity(new Tree(), generatePosition());
-
         }
     }
 

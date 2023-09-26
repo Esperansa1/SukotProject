@@ -1,12 +1,9 @@
 package Weapons;
 
-import Entities.BaseEntity;
 import Entities.BaseWeapon;
-import Entities.Player;
-import Game.BoardManager;
 import Game.Fightable;
 
-public class Fireball extends BaseWeapon implements Fightable {
+public class Fireball extends BaseWeapon {
 
     public static final String NAME = "Fireball";
     private static final String ICON = "\uD83D\uDD25";
@@ -34,13 +31,4 @@ public class Fireball extends BaseWeapon implements Fightable {
         return false;
     }
 
-    @Override
-    public void interact(Player player, BoardManager boardManager) {
-        boardManager.deleteEntity(getPosition());
-        // Order matters here because deleteEntity is working based off the position of the entity!
-        player.setPosition(getPosition());
-        player.addWeapon(this);
-
-
-    }
 }

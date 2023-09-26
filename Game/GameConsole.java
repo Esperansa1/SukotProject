@@ -1,6 +1,7 @@
 package Game;
 
 import Entities.BaseEntity;
+import Entities.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,10 +99,15 @@ public class GameConsole {
     }
 
 
+    public static void printGameOverMessage(Player player){
+        System.out.println("!!!!!!!!!!!!!!!!!!\n\n");
+        System.out.println("Game over! " + player.getName() + " won!");
+        System.out.println("\n\n!!!!!!!!!!!!!!!!!!");
 
-    public static void invalidInputMessage()
-    {
-        System.out.println("Invalid input. Please try again.");
     }
 
+
+    public static void printInvalidMovementMessage() {
+        System.out.println("Given movement is invalid, Please try again.");
+    }
 }

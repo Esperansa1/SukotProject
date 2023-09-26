@@ -1,6 +1,7 @@
 package Entities;
 
 import Game.BoardManager;
+import Game.PlayerHandler;
 import Weapons.MagicRing;
 
 public abstract class BaseEntity {
@@ -60,5 +61,5 @@ public abstract class BaseEntity {
         return name;
     }
 
-    public abstract void interact(Player player, BoardManager boardManager);
+    public abstract void interact(Player player, BoardManager boardManager, PlayerHandler playerHandler);
 }

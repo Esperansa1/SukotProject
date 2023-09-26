@@ -1,6 +1,7 @@
 package Entities;
 
 import Game.BoardManager;
+import Game.PlayerHandler;
 
 public class EmptyEntity extends BaseEntity {
 
@@ -14,9 +15,7 @@ public class EmptyEntity extends BaseEntity {
 
 
     @Override
-    public void interact(Player player, BoardManager boardManager) {
-        System.out.println("Empty entity");
+    public void interact(Player player, BoardManager boardManager, PlayerHandler playerHandler) {
         player.setPosition(getPosition());
-        return;
     }
 }
