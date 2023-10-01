@@ -1,7 +1,6 @@
 package Entities;
 
 import Game.BoardManager;
-import Game.Fightable;
 import Game.PlayerHandler;
 
 import java.util.LinkedList;
@@ -9,35 +8,20 @@ import java.util.Queue;
 
 public class Player extends BaseEntity {
 
-    private final String[] icons = {
-            "😀", "😁", "😂", "🤣", "😃", "😄", "😅", "😆", "😇", "😉",
-            "😊", "😋", "😍", "😘", "😗", "😙", "😚", "☺️", "🙂", "🤗",
-            "🤔", "😐", "😑", "😶", "🙄", "😏", "😣", "😥", "😮", "🤐",
-            "😯", "😪", "😫", "😴", "😌", "😛", "😜", "😝", "🤤", "😒",
-            "😓", "😔", "😕", "🙃", "🤑", "😲", "😷", "🤒", "🤕", "🤢",
-            "🤮", "🤧", "😇", "🥴", "🥵", "🥶", "🥺", "🥳", "🤩", "🤯",
-            "🧐", "🤨", "🤫", "🤬", "🤭"
-    };
 
     private Queue<BaseWeapon> weaponQueue = new LinkedList<>() ;
 
 
     public Player(String name) {
-        super(name, true);
-        setIcon(getRandomIcon());
+        super(name);
     }
     public Player(String name, String icon) {
-        super(name, icon, true);
+        super(name, icon);
     }
 
     @Override
     public String toString() {
         return "Player "+ super.getName() + " Icon: " + getIcon();
-    }
-
-    private String getRandomIcon(){
-        int randomIndex = (int) (Math.random() * icons.length);
-        return icons[randomIndex];
     }
 
     public void addWeapon(BaseWeapon weapon){
@@ -72,38 +56,54 @@ public class Player extends BaseEntity {
 
     @Override
     public void interact(Player other, BoardManager boardManager, PlayerHandler playerHandler) {
-        System.out.println("Interaction between players");
         BaseWeapon myWeapon = getWeapon();
         BaseWeapon otherWeapon= other.getWeapon();
-        if(myWeapon == null && otherWeapon == null) return;
-        else if(otherWeapon == null)
+        if(myWeapon == null && otherWeapon == null) {
+            return;
+        }
+        else if(otherWeapon == null){
             thisPlayerWins(other, boardManager, playerHandler);
-        else if(myWeapon == null)
-            thisPlayerLose(other, boardManager, playerHandler);
-        else if(myWeapon.interact(otherWeapon))
-            thisPlayerWins(other, boardManager, playerHandler);
-        else
+        }
+        else if(myWeapon == null) {
             thisPlayerLose(other, boardManager, playerHandler);
 
+        }
+        else if(myWeapon.interact(otherWeapon)) {
+            thisPlayerLose(other, boardManager, playerHandler);
+        }
+        else {
+            thisPlayerWins(other, boardManager, playerHandler);
+        }
     }
 
     private void thisPlayerWins(Player other, BoardManager boardManager, PlayerHandler playerHandler){
+
+        Player supposedNextPlayer = playerHandler.getNextPlayer();
+
         weaponQueue.remove();
         if(other.getWeapon()!= null)
             addWeapon(other.getWeapon());
-
         playerHandler.removePlayer(other);
+
+        playerHandler.updateCurrentPlayerIndex(supposedNextPlayer);
+
         boardManager.deleteEntity(other.getPosition());
-        setPosition(other.getPosition());
+        other.setPosition(getPosition());
+
     }
 
     private void thisPlayerLose(Player other, BoardManager boardManager, PlayerHandler playerHandler){
+        Player supposedNextPlayer = playerHandler.getNextPlayer();
+
         other.weaponQueue.remove();
         if(getWeapon() != null)
             other.addWeapon(getWeapon());
         playerHandler.removePlayer(this);
+        playerHandler.updateCurrentPlayerIndex(supposedNextPlayer);
+
         boardManager.deleteEntity(getPosition());
         other.setPosition(getPosition());
+
 
     }
 

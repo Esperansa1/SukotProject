@@ -1,6 +1,7 @@
 package Game;
 
 import Entities.BaseEntity;
+import Entities.BaseWeapon;
 import Entities.Player;
 
 import java.util.ArrayList;
@@ -39,14 +40,14 @@ public class GameConsole {
         for (int i = 0; i < maxWords; i++) {
             for (String[] words : wordsList) {
                 if (i < words.length) {
-                    int spaces = 15 - words[i].length(); // Adjust the width as needed
+                    int spaces = 5 - words[i].length(); // Adjust the width as needed
                     int leftSpaces = spaces / 2;
                     int rightSpaces = spaces - leftSpaces;
                     printSpaces(leftSpaces);
                     System.out.print(words[i]);
                     printSpaces(rightSpaces);
                 } else {
-                    printSpaces(15); // Print empty spaces if there are no more words in this column
+                    printSpaces(3); // Print empty spaces if there are no more words in this column
                 }
             }
             System.out.println("\n");
@@ -116,11 +117,13 @@ public class GameConsole {
     }
 
     public static void printCurrentPlayer(Player player){
-        System.out.println("Current player is " + player.getName() + " " + player.getIcon());
-    }
+        String message = "Current player is " + player.getName() + " " + player.getIcon();
+        BaseWeapon weapon = player.getWeapon();
+        if(weapon != null){
+            message += " and he has a "+weapon.getName()+weapon.getIcon();
+        }
 
-    public static void printPlayerWeapons(Player player){
-        System.out.println(player.getName() + "'s held weapon is "+player.getWeapon().getName() + " " + player.getWeapon().getIcon());
+        System.out.println(message);
     }
 
 }

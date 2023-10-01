@@ -10,7 +10,7 @@ import Weapons.Sword;
 public class BaseWeapon extends BaseEntity implements Fightable {
 
     public BaseWeapon(String name, String icon) {
-        super(name, icon, true);
+        super(name, icon);
     }
 
 

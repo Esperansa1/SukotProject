@@ -84,8 +84,10 @@ public class BoardManager {
     }
 
     private void generatePlayers(PlayerHandler playerHandler){
+        int y = 0;
         for (int i = 0; i < playerHandler.getPlayerAmount(); i++) {
             addEntity(playerHandler.getNextPlayer(), generatePosition());
+            playerHandler.getCurrentPlayer().setPosition(new Position(0, y++));
         }
     }
 

@@ -10,29 +10,20 @@ public abstract class BaseEntity {
     private String icon;
     private Position position;
 
-    public boolean isWalkable() {
-        return isWalkable;
-    }
-
-    private boolean isWalkable;
-
-    public BaseEntity(String name, boolean isWalkable) {
+    public BaseEntity(String name) {
         this.name = name;
-        this.isWalkable = isWalkable;
     }
 
-    public BaseEntity(String name, String icon, boolean isWalkable) {
+    public BaseEntity(String name, String icon) {
         this.name = name;
         this.icon = icon;
-        this.isWalkable = isWalkable;
 
     }
 
-    public BaseEntity(Position position, String name, String icon, boolean isWalkable) {
+    public BaseEntity(Position position, String name, String icon) {
         this.name = name;
         this.icon = icon;
         this.position = position;
-        this.isWalkable = isWalkable;
 
     }
 

@@ -10,7 +10,7 @@ public class Tree extends BaseEntity {
 
 
     public Tree() {
-        super(NAME, ICON, false);
+        super(NAME, ICON);
     }
 
 

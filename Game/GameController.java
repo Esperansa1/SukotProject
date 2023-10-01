@@ -22,26 +22,17 @@ public class GameController {
         boardManager = new BoardManager(entitiesAmount);
         boardManager.spawnEntities(playerHandler, TREE_AMOUNT, WEAPON_AMOUNT);
         updateAndPrintGameState();
-        stepGame();
     }
 
     private void stepGame(){
         moveCurrentPlayer();
-        GameConsole.printCurrentPlayer(playerHandler.getCurrentPlayer());
         playerHandler.getNextPlayer();
-
-        if(playerHandler.isGameOver()){
-            GameConsole.printGameOverMessage(playerHandler.getCurrentPlayer());
-        }else{
-            updateAndPrintGameState();
-        }
+        updateAndPrintGameState();
     }
 
     private void moveCurrentPlayer(){
         Player currentPlayer = playerHandler.getCurrentPlayer();
-
         GameConsole.printCurrentPlayer(currentPlayer);
-
         Position previousPosition = currentPlayer.getPosition();
         do {
             char wantedMovement = GameConsole.askForPlayerMovement();
@@ -56,6 +47,11 @@ public class GameController {
 
     private void updateAndPrintGameState()
     {
+        if(playerHandler.isGameOver()){
+            GameConsole.printGameOverMessage(playerHandler.getCurrentPlayer());
+            return;
+        }
+
         boardManager.updateBoard();
         GameConsole.printGameState(boardManager.getBoard());
         stepGame();
@@ -63,6 +59,11 @@ public class GameController {
 
 
 
+    public static void main(String[] args) {
+
+        GameController gameController = new GameController();
+
+    }
 
 
 }

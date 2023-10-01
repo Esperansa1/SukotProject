@@ -10,7 +10,7 @@ public class EmptyEntity extends BaseEntity {
 
 
     public EmptyEntity(Position position) {
-        super(position, NAME, ICON, true);
+        super(position, NAME, ICON);
     }
 
 

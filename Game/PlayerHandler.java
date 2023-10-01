@@ -1,9 +1,21 @@
 package Game;
 
 import Entities.Player;
+import Weapons.Fireball;
+import Weapons.MagicRing;
+import Weapons.Sword;
 
 public class PlayerHandler {
 
+    private final String[] icons = {
+            "😀", "😁", "😂", "🤣", "😃", "😄", "😅", "😆", "😇", "😉",
+            "😊", "😋", "😍", "😘", "😗", "😙", "😚", "☺️", "🙂", "🤗",
+            "🤔", "😐", "😑", "😶", "🙄", "😏", "😣", "😥", "😮", "🤐",
+            "😯", "😪", "😫", "😴", "😌", "😛", "😜", "😝", "🤤", "😒",
+            "😓", "😔", "😕", "🙃", "🤑", "😲", "😷", "🤒", "🤕", "🤢",
+            "🤮", "🤧", "😇", "🥴", "🥵", "🥶", "🥺", "🥳", "🤩", "🤯",
+            "🧐", "🤨", "🤫", "🤬", "🤭"
+    };
 
     private Player[] players;
     private int currentPlayerIndex;
@@ -29,7 +41,6 @@ public class PlayerHandler {
         if(emptyPosition != -1) {
             players[emptyPosition] = player;
         }
-        else System.out.println("Array is full");
     }
 
     public void addPlayer(String name, String icon) {
@@ -37,13 +48,14 @@ public class PlayerHandler {
         addPlayer(player);
     }
 
-    public Player getNextPlayer(){ // Might change to linked list to make more efficient (O(1))
+    public Player getNextPlayer(){
         if(this.players.length == 0) return null;
         if(currentPlayerIndex == this.players.length - 1) {
             currentPlayerIndex = 0;
             return players[currentPlayerIndex]; // returns the first player in the array
         } // Reset the circle
         currentPlayerIndex++;
+        System.out.println(currentPlayerIndex);
         return this.players[currentPlayerIndex];
     }
 
@@ -64,8 +76,7 @@ public class PlayerHandler {
             }
         }
         players = playerCopy;
-        if(currentPlayerIndex >= 0)
-            currentPlayerIndex--;
+
     }
 
     public int getPlayerAmount(){
@@ -77,7 +88,8 @@ public class PlayerHandler {
         players = new Player[playerAmount];
         for (int i = 0; i < playerAmount; i++) {
             String playerName = GameConsole.askForPlayerName();
-            Player newPlayer = new Player(playerName);
+
+            Player newPlayer = new Player(playerName, getRandomIcon());
             addPlayer(newPlayer);
             GameConsole.printPlayerDetails(newPlayer);
         }
@@ -86,5 +98,36 @@ public class PlayerHandler {
     public boolean isGameOver(){
         return getPlayerAmount() <= 1;
     }
+
+    private String getRandomIcon(){
+        String randomIcon;
+        do{
+            randomIcon = icons[(int)(Math.random() * icons.length)];
+
+        }while(isIconTaken(randomIcon));
+        return randomIcon;
+    }
+
+    private boolean isIconTaken(String icon){
+
+        for(Player player : players){
+            if(player != null && player.getIcon().equals(icon))
+                return true;
+        }
+        return false;
+    }
+
+    public void updateCurrentPlayerIndex(Player neededPlayer){
+        for (int i = 0; i < players.length; i++) {
+            if(players[i].equals(neededPlayer)){
+                currentPlayerIndex = i;
+            }
+        }
+        currentPlayerIndex--;
+        System.out.println(currentPlayerIndex);
+
+    }
+
+
 
 }
